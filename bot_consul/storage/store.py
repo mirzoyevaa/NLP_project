@@ -161,7 +161,7 @@ class QdrantStore:
             if prev is None:
                 stats["inserted"] += 1
                 to_write.append(chunk)
-            elif prev.get("url") == chunk.url:
+            elif prev.get("url") == chunk.url and prev.get("dataset") == chunk.dataset:
                 stats["skipped"] += 1
             else:
                 stats["updated"] += 1
