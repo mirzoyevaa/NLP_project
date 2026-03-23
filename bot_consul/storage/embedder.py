@@ -15,6 +15,7 @@ from functools import lru_cache
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 try:
     import torch
@@ -29,6 +30,11 @@ try:
 >>>>>>> b066bb1 (main_pipline)
 =======
 >>>>>>> b066bb1 (main_pipline)
+=======
+
+try:
+    import torch
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 except ImportError as e:
     raise RuntimeError(
         "Пакет torch (PyTorch) не импортируется. Переустановите зависимости в .venv бота: "

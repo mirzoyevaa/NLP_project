@@ -13,12 +13,15 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 тут получаем уже извлечённый текст и подготавливает его для векторизации.
 >>>>>>> b066bb1 (main_pipline)
 =======
 тут получаем уже извлечённый текст и подготавливает его для векторизации.
 >>>>>>> b066bb1 (main_pipline)
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 """
 
 from __future__ import annotations
@@ -40,6 +43,7 @@ def normalize_text(text: str) -> str:
     """
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     text = unicodedata.normalize("NFC", text)
     text = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", text)
     text = re.sub(r"[ \t]+", " ", text)
@@ -47,16 +51,19 @@ def normalize_text(text: str) -> str:
 =======
 >>>>>>> b066bb1 (main_pipline)
     # Unicode нормализация
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
     text = unicodedata.normalize("NFC", text)
-    # Управляющие символы (кроме \n, \t)
     text = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", text)
-    # Множественные пробелы → один
     text = re.sub(r"[ \t]+", " ", text)
+<<<<<<< HEAD
     # Множественные переносы → два максимум (абзацы)
 <<<<<<< HEAD
 >>>>>>> b066bb1 (main_pipline)
 =======
 >>>>>>> b066bb1 (main_pipline)
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
 
@@ -72,12 +79,15 @@ def is_meaningful(text: str, min_length: int | None = None) -> bool:
         return False
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     # Слишком мало слов — скорее всего заголовок или навигация
 >>>>>>> b066bb1 (main_pipline)
 =======
     # Слишком мало слов — скорее всего заголовок или навигация
 >>>>>>> b066bb1 (main_pipline)
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
     words = text.split()
     if len(words) < 8:
         return False
@@ -86,6 +96,7 @@ def is_meaningful(text: str, min_length: int | None = None) -> bool:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 # ── Сегментация ───────────────────────────────────────────────────────────────
 
@@ -94,6 +105,8 @@ def is_meaningful(text: str, min_length: int | None = None) -> bool:
 # ── Сегментация ───────────────────────────────────────────────────────────────
 
 >>>>>>> b066bb1 (main_pipline)
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 def split_into_chunks(
     text: str,
     max_length: int | None = None,
@@ -123,6 +136,7 @@ def split_into_chunks(
         else:
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             raw_chunks.extend(_split_by_sentences(para, max_len, ovlp))
 
 =======
@@ -136,6 +150,10 @@ def split_into_chunks(
 >>>>>>> b066bb1 (main_pipline)
 =======
 >>>>>>> b066bb1 (main_pipline)
+=======
+            raw_chunks.extend(_split_by_sentences(para, max_len, ovlp))
+
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
     merged = _merge_short_chunks(raw_chunks, min_len, max_len)
     return [c for c in merged if is_meaningful(c)]
 
@@ -149,17 +167,21 @@ def _split_by_sentences(text: str, max_len: int, overlap: int) -> list[str]:
     """Делит длинный абзац по предложениям с перекрытием."""
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     # Паттерн конца предложения (русский + английский)
 >>>>>>> b066bb1 (main_pipline)
 =======
     # Паттерн конца предложения (русский + английский)
 >>>>>>> b066bb1 (main_pipline)
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
     sentence_end = re.compile(r"(?<=[.!?])\s+(?=[А-ЯA-Z\d«\"\(])")
     sentences = sentence_end.split(text)
 
     chunks: list[str] = []
     current = ""
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     prev_sentence = "" 
@@ -169,6 +191,9 @@ def _split_by_sentences(text: str, max_len: int, overlap: int) -> list[str]:
 =======
     prev_sentence = ""  # для перекрытия
 >>>>>>> b066bb1 (main_pipline)
+=======
+    prev_sentence = "" 
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 
     for sent in sentences:
         candidate = (prev_sentence + " " + sent).strip() if prev_sentence else sent
@@ -179,12 +204,15 @@ def _split_by_sentences(text: str, max_len: int, overlap: int) -> list[str]:
                 chunks.append(current)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
             # Перекрытие: берём хвост предыдущего чанка
 >>>>>>> b066bb1 (main_pipline)
 =======
             # Перекрытие: берём хвост предыдущего чанка
 >>>>>>> b066bb1 (main_pipline)
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
             overlap_text = current[-overlap:] if len(current) > overlap else current
             current = (overlap_text + " " + sent).strip() if overlap_text else sent
         prev_sentence = sent
@@ -213,6 +241,7 @@ def _merge_short_chunks(
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 @dataclass
 class PreparedText:
     """Результат предобработки одного сырого текста."""
@@ -234,6 +263,14 @@ class PreparedText:
 >>>>>>> b066bb1 (main_pipline)
 =======
 >>>>>>> b066bb1 (main_pipline)
+=======
+@dataclass
+class PreparedText:
+    """Результат предобработки одного сырого текста."""
+    chunks: list[str]      
+    original_length: int 
+    chunks_count: int    
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 
 
 def preprocess(text: str) -> PreparedText:
@@ -259,17 +296,21 @@ def preprocess_to_chunks(
     date: str,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     id_offset: int = 0,
 >>>>>>> b066bb1 (main_pipline)
 =======
     id_offset: int = 0,
 >>>>>>> b066bb1 (main_pipline)
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 ) -> list[Chunk]:
     """
     Предобрабатывает текст и возвращает готовые Chunk-объекты.
     Используется парсерами: они передают сырой текст,
     получают список Chunk, готовых к upsert в QdrantStore.
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     
@@ -284,10 +325,15 @@ def preprocess_to_chunks(
     id_offset — смещение индекса для уникальности ID при нескольких вызовах
     с одним URL.
 >>>>>>> b066bb1 (main_pipline)
+=======
+    
+    id формируется детерминированно как make_chunk_id(url, index).
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
     """
     prepared = preprocess(text)
     return [
         Chunk(
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
             id=make_chunk_id(url, i),
@@ -297,6 +343,9 @@ def preprocess_to_chunks(
 =======
             id=make_chunk_id(url, id_offset + i),
 >>>>>>> b066bb1 (main_pipline)
+=======
+            id=make_chunk_id(url, i),
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
             text=chunk_text,
             country=country,
             visa_type=visa_type,
@@ -307,6 +356,7 @@ def preprocess_to_chunks(
         for i, chunk_text in enumerate(prepared.chunks)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     ]
 =======
     ]
@@ -314,3 +364,6 @@ def preprocess_to_chunks(
 =======
     ]
 >>>>>>> b066bb1 (main_pipline)
+=======
+    ]
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)

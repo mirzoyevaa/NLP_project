@@ -14,6 +14,7 @@
   3. Консистентность (§3.3):
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      «дедупликация одинаковых фрагментов по URL»
 
 Используется в ручном ревью данных
@@ -31,6 +32,11 @@
 >>>>>>> b066bb1 (main_pipline)
 =======
 >>>>>>> b066bb1 (main_pipline)
+=======
+     «дедупликация одинаковых фрагментов по URL»
+
+Используется в ручном ревью данных
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 """
 from __future__ import annotations
 
@@ -50,6 +56,7 @@ TARGET_COUNTRIES = frozenset({
     "thailand", "uae", "uk", "usa", "serbia", "georgia", "turkey",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     "australia", "south_africa",
 })
 
@@ -64,10 +71,17 @@ REQUIRED_SOURCE_TYPES = frozenset({"official", "review", "channel"})
 
 REQUIRED_SOURCE_TYPES = frozenset({"official", "review", "channel"})
 >>>>>>> b066bb1 (main_pipline)
+=======
+    "australia", "south_africa",
+})
+
+REQUIRED_SOURCE_TYPES = frozenset({"official", "review", "channel", "ddg"})
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 
 _SCROLL_BATCH = 100
 
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -81,6 +95,8 @@ _SCROLL_BATCH = 100
 >>>>>>> b066bb1 (main_pipline)
 =======
 >>>>>>> b066bb1 (main_pipline)
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 @dataclass
 class CoverageReport:
     """
@@ -92,6 +108,7 @@ class CoverageReport:
     total_chunks: int = 0
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     countries_full: list[str] = field(default_factory=list)
     countries_partial: list[str] = field(default_factory=list)
     countries_missing: list[str] = field(default_factory=list)
@@ -99,22 +116,26 @@ class CoverageReport:
 =======
 >>>>>>> b066bb1 (main_pipline)
     # Страны с тремя типами источников (official + review + channel)
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
     countries_full: list[str] = field(default_factory=list)
-    # Страны с 1–2 типами источников
     countries_partial: list[str] = field(default_factory=list)
-    # Целевые страны без данных вообще
     countries_missing: list[str] = field(default_factory=list)
+<<<<<<< HEAD
     # Доля целевых стран с полным покрытием (0.0–1.0)
 <<<<<<< HEAD
 >>>>>>> b066bb1 (main_pipline)
 =======
 >>>>>>> b066bb1 (main_pipline)
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
     coverage_score: float = 0.0
 
     # ── Актуальность ──────────────────────────────────────────────────────────
     fresh_chunks: int = 0
     stale_chunks: int = 0
     stale_ratio: float = 0.0
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     oldest_source_days: int = 0
@@ -129,21 +150,25 @@ class CoverageReport:
 =======
 >>>>>>> b066bb1 (main_pipline)
     # Возраст самого старого источника в днях
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
     oldest_source_days: int = 0
-    # URL источников, которым нужно обновление
     sources_needing_update: list[str] = field(default_factory=list)
 
     # ── Консистентность ───────────────────────────────────────────────────────
-    # Число чанков с одинаковым content_hash (дубликаты)
-    duplicate_hashes: int = 0
+    # Число дублирующихся URL (один URL встречается больше одного раза)
+    duplicate_urls: int = 0
     source_type_counts: dict[str, int] = field(default_factory=dict)
 
+<<<<<<< HEAD
     # ── Интерфейс ─────────────────────────────────────────────────────────────
 
 <<<<<<< HEAD
 >>>>>>> b066bb1 (main_pipline)
 =======
 >>>>>>> b066bb1 (main_pipline)
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
     def is_healthy(self) -> bool:
         """
         Базовая проверка здоровья базы знаний.
@@ -177,6 +202,7 @@ class CoverageReport:
             "consistency": {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 "duplicate_urls":     self.duplicate_urls,
 =======
                 "duplicate_hashes":  self.duplicate_hashes,
@@ -184,6 +210,9 @@ class CoverageReport:
 =======
                 "duplicate_hashes":  self.duplicate_hashes,
 >>>>>>> b066bb1 (main_pipline)
+=======
+                "duplicate_urls":     self.duplicate_urls,
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
                 "source_type_counts": self.source_type_counts,
             },
         }
@@ -199,6 +228,7 @@ class CoverageReport:
             f"стран ({self.coverage_score:.0%})\n"
             f"Без данных: {missing}\n"
             f"Самый старый источник: {self.oldest_source_days} дней\n"
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
             f"Дублирующихся URL: {self.duplicate_urls}"
@@ -220,6 +250,12 @@ class CoverageReport:
 >>>>>>> b066bb1 (main_pipline)
 =======
 >>>>>>> b066bb1 (main_pipline)
+=======
+            f"Дублирующихся URL: {self.duplicate_urls}"
+        )
+
+
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 def build_coverage_report(
     store: "QdrantStore",
     staleness_days: int = 180,
@@ -228,12 +264,15 @@ def build_coverage_report(
     Строит полный отчёт за один scroll-проход по коллекции.
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     Не делает дополнительных запросов к Qdrant.
 >>>>>>> b066bb1 (main_pipline)
 =======
     Не делает дополнительных запросов к Qdrant.
 >>>>>>> b066bb1 (main_pipline)
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 
     Аргументы:
         store          — экземпляр QdrantStore
@@ -245,10 +284,14 @@ def build_coverage_report(
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
     country_sources: dict[str, set] = defaultdict(set)
     source_counts:   dict[str, int] = defaultdict(int)
     url_count:       dict[str, int] = defaultdict(int)  # для дедупликации по URL
     url_dates:       dict[str, str] = {}
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> b066bb1 (main_pipline)
@@ -260,24 +303,30 @@ def build_coverage_report(
 >>>>>>> b066bb1 (main_pipline)
 =======
 >>>>>>> b066bb1 (main_pipline)
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 
     report = CoverageReport()
     oldest_days = 0
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     # Один scroll-проход по всей коллекции
 >>>>>>> b066bb1 (main_pipline)
 =======
     # Один scroll-проход по всей коллекции
 >>>>>>> b066bb1 (main_pipline)
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
     offset = None
     while True:
         records, next_offset = store.client.scroll(
             collection_name=store.collection,
             limit=_SCROLL_BATCH,
             offset=offset,
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
             with_payload=["country", "source_type", "date", "url"],
@@ -287,16 +336,23 @@ def build_coverage_report(
 =======
             with_payload=["country", "source_type", "date", "url", "content_hash"],
 >>>>>>> b066bb1 (main_pipline)
+=======
+            with_payload=["country", "source_type", "date", "url"],
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
             with_vectors=False,
         )
         for rec in records:
             p = rec.payload or {}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
             country  = p.get("country", "unknown")
             src_type = p.get("source_type", "unknown")
             rec_date = p.get("date", "9999-01-01")
             url      = p.get("url", "")
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> b066bb1 (main_pipline)
@@ -309,11 +365,14 @@ def build_coverage_report(
 >>>>>>> b066bb1 (main_pipline)
 =======
 >>>>>>> b066bb1 (main_pipline)
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 
             report.total_chunks += 1
             country_sources[country].add(src_type)
             source_counts[src_type] += 1
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
             # Дедупликация по URL
@@ -327,6 +386,11 @@ def build_coverage_report(
             if c_hash:
                 hash_count[c_hash] += 1
 >>>>>>> b066bb1 (main_pipline)
+=======
+            # Дедупликация по URL
+            if url:
+                url_count[url] += 1
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 
             if rec_date < cutoff:
                 report.stale_chunks += 1
@@ -375,6 +439,7 @@ def build_coverage_report(
     # ── Консистентность ───────────────────────────────────────────────────────
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     report.duplicate_urls = sum(cnt - 1 for cnt in url_count.values() if cnt > 1)
 =======
     report.duplicate_hashes = sum(cnt - 1 for cnt in hash_count.values() if cnt > 1)
@@ -382,6 +447,9 @@ def build_coverage_report(
 =======
     report.duplicate_hashes = sum(cnt - 1 for cnt in hash_count.values() if cnt > 1)
 >>>>>>> b066bb1 (main_pipline)
+=======
+    report.duplicate_urls = sum(cnt - 1 for cnt in url_count.values() if cnt > 1)
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
     report.source_type_counts = dict(source_counts)
 
     return report

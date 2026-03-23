@@ -179,6 +179,7 @@ def _kind_to_source_type(kind: str) -> str:
         "practical": "channel",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         "ddg": "ddg",
 =======
         "ddg": "channel",
@@ -186,6 +187,9 @@ def _kind_to_source_type(kind: str) -> str:
 =======
         "ddg": "channel",
 >>>>>>> b066bb1 (main_pipline)
+=======
+        "ddg": "ddg",
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
     }.get((kind or "").lower(), "channel")
 
 
@@ -261,6 +265,7 @@ def upsert_filtered_sources_to_qdrant(
     chunks: List[Chunk] = []
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     for i, (src, _sc) in enumerate(filtered):
 =======
     for src, _sc in filtered:
@@ -268,6 +273,9 @@ def upsert_filtered_sources_to_qdrant(
 =======
     for src, _sc in filtered:
 >>>>>>> b066bb1 (main_pipline)
+=======
+    for i, (src, _sc) in enumerate(filtered):
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
         body = "\n\n".join(p for p in (src.title, src.excerpt) if p).strip()
         if not body:
             body = src.url
@@ -278,6 +286,7 @@ def upsert_filtered_sources_to_qdrant(
             Chunk(
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 id=make_chunk_id(src.url, i),
 =======
                 id=make_chunk_id(src.url, 0),
@@ -285,6 +294,9 @@ def upsert_filtered_sources_to_qdrant(
 =======
                 id=make_chunk_id(src.url, 0),
 >>>>>>> b066bb1 (main_pipline)
+=======
+                id=make_chunk_id(src.url, i),
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
                 text=body,
                 country=country,
                 visa_type=vt,

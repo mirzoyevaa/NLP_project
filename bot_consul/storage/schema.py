@@ -25,6 +25,7 @@ from typing import Any, Dict, Optional
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 SOURCE_TYPES = ("official", "review", "channel", "ddg")
 =======
 SOURCE_TYPES = ("official", "review", "channel")
@@ -32,10 +33,14 @@ SOURCE_TYPES = ("official", "review", "channel")
 =======
 SOURCE_TYPES = ("official", "review", "channel")
 >>>>>>> b066bb1 (main_pipline)
+=======
+SOURCE_TYPES = ("official", "review", "channel", "ddg")
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 
 COUNTRY_CODES = (
     "germany", "france", "spain", "czechia", "italy",
     "thailand", "uae", "uk", "usa", "serbia", "georgia",
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     "turkey", "australia", "south_africa", "general",
@@ -45,6 +50,9 @@ COUNTRY_CODES = (
 =======
     "turkey", "general",
 >>>>>>> b066bb1 (main_pipline)
+=======
+    "turkey", "australia", "south_africa", "general",
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 )
 
 VISA_TYPE_CODES = (

@@ -3,6 +3,7 @@
 Читается из переменных окружения / .env файла.
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 Другие зоны работают через интерфейс QdrantStore и не должны
 зависеть от деталей подключения к Qdrant напрямую.
@@ -11,6 +12,8 @@
 Другие зоны работают через интерфейс QdrantStore и не должны
 зависеть от деталей подключения к Qdrant напрямую.
 >>>>>>> b066bb1 (main_pipline)
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 """
 
 from pathlib import Path
@@ -20,12 +23,15 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 # Тот же корень, что и у bot_consul: storage_zone/.env (не зависит от cwd)
 >>>>>>> b066bb1 (main_pipline)
 =======
 # Тот же корень, что и у bot_consul: storage_zone/.env (не зависит от cwd)
 >>>>>>> b066bb1 (main_pipline)
+=======
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 _STORAGE_ZONE_ROOT = Path(__file__).resolve().parent.parent.parent
 _ENV_FILE = _STORAGE_ZONE_ROOT / ".env"
 
@@ -37,6 +43,7 @@ class StorageSettings(BaseSettings):
         case_sensitive=False,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         extra="ignore")
 =======
         extra="ignore",
@@ -46,11 +53,15 @@ class StorageSettings(BaseSettings):
         extra="ignore",
     )
 >>>>>>> b066bb1 (main_pipline)
+=======
+        extra="ignore")
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 
     QDRANT_URL: str = Field(default = "https://1a52f6e5-15f6-4d8d-9168-0c4ca6887771.europe-west3-0.gcp.cloud.qdrant.io",  description='url')
     QDRANT_API_KEY: str = Field(default="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.MOrvRW05eaj9OVXqzJddFTafoLSMUaBwgMJTE_TbZM8", description='api')
     QDRANT_COLLECTION: str = Field(
         default="consul_knowledge",
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         description="consul_knowledge")
@@ -87,39 +98,50 @@ class StorageSettings(BaseSettings):
 >>>>>>> b066bb1 (main_pipline)
         description="consul_knowledge",
     )
+=======
+        description="consul_knowledge")
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 
     EMBEDDING_MODEL: str = Field(
         default="BAAI/bge-m3",
-        description="Модель эмбеддингов",
-    )
+        description="Модель эмбеддингов")
+    
     EMBEDDING_DEVICE: str = Field(
         default="cpu",
-        description="Устройство для эмбеддингов: cpu / cuda / mps",
-    )
+        description="Устройство для эмбеддингов: cpu / cuda / mps")
+    
     EMBEDDING_BATCH_SIZE: int = Field(
         default=32,
-        description="Размер батча для генерации эмбеддингов",
-    )
+        description="Размер батча для генерации эмбеддингов")
+    
     EMBEDDING_NORMALIZE: bool = Field(
         default=True,
-        description="Нормализовать эмбеддинги перед записью/поиском",
-    )
+        description="Нормализовать эмбеддинги перед записью/поиском")
 
     SEARCH_TOP_K: int = Field(
         default=5,
-        description="Количество результатов поиска по умолчанию",
-    )
+        description="Количество результатов поиска по умолчанию")
+    
     SEARCH_SCORE_THRESHOLD: float = Field(
         default=0.2,
+<<<<<<< HEAD
         description="Минимальный score для возврата результата",
 <<<<<<< HEAD
 >>>>>>> b066bb1 (main_pipline)
 =======
 >>>>>>> b066bb1 (main_pipline)
+=======
+        description="Минимальный score для возврата результата")
+    
+    SEARCH_SCORE_THRESHOLD_OFFICIAL: float = Field(
+        default=0.35,
+        description="Минимальный score для официальных источников",
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
     )
 
     STALENESS_DAYS: int = Field(
         default=180,
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         description="Порог устаревания источников в днях")
@@ -156,42 +178,46 @@ class StorageSettings(BaseSettings):
 >>>>>>> b066bb1 (main_pipline)
         description="Порог устаревания источников в днях",
     )
+=======
+        description="Порог устаревания источников в днях")
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 
     RAW_STORAGE_PATH: str = Field(
         default="data/raw",
-        description="Папка для сырых JSON и промежуточных выгрузок",
-    )
+        description="Папка для сырых JSON и промежуточных выгрузок")
 
     MIN_CHUNK_LENGTH: int = Field(
         default=80,
-        description="Минимальная длина чанка в символах",
-    )
+        description="Минимальная длина чанка в символах")
+    
     MAX_CHUNK_LENGTH: int = Field(
         default=1500,
-        description="Максимальная длина чанка в символах",
-    )
+        description="Максимальная длина чанка в символах")
+    
     CHUNK_OVERLAP: int = Field(
         default=100,
-        description="Перекрытие между чанками в символах",
-    )
+        description="Перекрытие между чанками в символах")
 
     DEFAULT_VISA_TYPE: str = Field(
         default="tourist",
-        description="Значение visa_type по умолчанию",
-    )
+        description="Значение visa_type по умолчанию")
+    
     DEFAULT_DATASET: str = Field(
         default="default_dataset",
-        description="Имя датасета по умолчанию",
-    )
+        description="Имя датасета по умолчанию")
 
     LOG_LEVEL: str = Field(
         default="INFO",
+<<<<<<< HEAD
         description="Уровень логирования",
     )
 <<<<<<< HEAD
 >>>>>>> b066bb1 (main_pipline)
 =======
 >>>>>>> b066bb1 (main_pipline)
+=======
+        description="Уровень логирования")
+>>>>>>> bffe1d0 (storage: fix deduplication, config, and consistency issues - schema: add australia, south_africa to COUNTRY_CODES - schema: add page_content, dataset, passport_country, purpose, destination_raw fields to Chunk - config: add SEARCH_SCORE_THRESHOLD_OFFICIAL field - embedder: fix HuggingFaceEmbeddings initialization - store: replace hardcoded score_threshold=0.35 with settings - quality: switch duplicate detection from content_hash to URL - web_source_catalog: fix chunk ID generation with enumerate - __init__: remove unused exports - add .gitignore)
 
 
 settings = StorageSettings()
