@@ -12,13 +12,9 @@
       до появления в индексе. Нет источников старше, чем полгода.»
 
   3. Консистентность (§3.3):
-     «дедупликация одинаковых фрагментов; выявление противоречий
-      между источниками (официальные vs отзывы)»
+     «дедупликация одинаковых фрагментов по URL»
 
-Используется:
-  - В скрипте scripts/knowledge_report.py
-  - В Prometheus-метриках (через pipeline/metrics.py)
-  - В ручном ревью командой данных
+Используется в ручном ревью данных
 """
 from __future__ import annotations
 
@@ -36,16 +32,13 @@ logger = logging.getLogger(__name__)
 TARGET_COUNTRIES = frozenset({
     "germany", "france", "spain", "czechia", "italy",
     "thailand", "uae", "uk", "usa", "serbia", "georgia", "turkey",
+    "australia", "south_africa",
 })
 
-REQUIRED_SOURCE_TYPES = frozenset({"official", "review", "channel"})
+REQUIRED_SOURCE_TYPES = frozenset({"official", "review", "channel", "ddg"})
 
 _SCROLL_BATCH = 100
 
-
-# ══════════════════════════════════════════════════════════════════════════════
-# Отчёт о качестве
-# ══════════════════════════════════════════════════════════════════════════════
 
 @dataclass
 class CoverageReport:
@@ -56,30 +49,22 @@ class CoverageReport:
 
     # ── Покрытие ──────────────────────────────────────────────────────────────
     total_chunks: int = 0
-    # Страны с тремя типами источников (official + review + channel)
     countries_full: list[str] = field(default_factory=list)
-    # Страны с 1–2 типами источников
     countries_partial: list[str] = field(default_factory=list)
-    # Целевые страны без данных вообще
     countries_missing: list[str] = field(default_factory=list)
-    # Доля целевых стран с полным покрытием (0.0–1.0)
     coverage_score: float = 0.0
 
     # ── Актуальность ──────────────────────────────────────────────────────────
     fresh_chunks: int = 0
     stale_chunks: int = 0
     stale_ratio: float = 0.0
-    # Возраст самого старого источника в днях
     oldest_source_days: int = 0
-    # URL источников, которым нужно обновление
     sources_needing_update: list[str] = field(default_factory=list)
 
     # ── Консистентность ───────────────────────────────────────────────────────
-    # Число чанков с одинаковым content_hash (дубликаты)
-    duplicate_hashes: int = 0
+    # Число дублирующихся URL (один URL встречается больше одного раза)
+    duplicate_urls: int = 0
     source_type_counts: dict[str, int] = field(default_factory=dict)
-
-    # ── Интерфейс ─────────────────────────────────────────────────────────────
 
     def is_healthy(self) -> bool:
         """
@@ -112,7 +97,7 @@ class CoverageReport:
                 "sources_needing_update": self.sources_needing_update,
             },
             "consistency": {
-                "duplicate_hashes":  self.duplicate_hashes,
+                "duplicate_urls":     self.duplicate_urls,
                 "source_type_counts": self.source_type_counts,
             },
         }
@@ -128,13 +113,9 @@ class CoverageReport:
             f"стран ({self.coverage_score:.0%})\n"
             f"Без данных: {missing}\n"
             f"Самый старый источник: {self.oldest_source_days} дней\n"
-            f"Дубликаты content_hash: {self.duplicate_hashes}"
+            f"Дублирующихся URL: {self.duplicate_urls}"
         )
 
-
-# ══════════════════════════════════════════════════════════════════════════════
-# Построение отчёта
-# ══════════════════════════════════════════════════════════════════════════════
 
 def build_coverage_report(
     store: "QdrantStore",
@@ -142,7 +123,6 @@ def build_coverage_report(
 ) -> CoverageReport:
     """
     Строит полный отчёт за один scroll-проход по коллекции.
-    Не делает дополнительных запросов к Qdrant.
 
     Аргументы:
         store          — экземпляр QdrantStore
@@ -152,38 +132,37 @@ def build_coverage_report(
 
     cutoff = (date.today() - timedelta(days=staleness_days)).isoformat()
 
-    country_sources: dict[str, set]  = defaultdict(set)
-    source_counts:   dict[str, int]  = defaultdict(int)
-    hash_count:      dict[str, int]  = defaultdict(int)
-    url_dates:       dict[str, str]  = {}
+    country_sources: dict[str, set] = defaultdict(set)
+    source_counts:   dict[str, int] = defaultdict(int)
+    url_count:       dict[str, int] = defaultdict(int)  # для дедупликации по URL
+    url_dates:       dict[str, str] = {}
 
     report = CoverageReport()
     oldest_days = 0
 
-    # Один scroll-проход по всей коллекции
     offset = None
     while True:
         records, next_offset = store.client.scroll(
             collection_name=store.collection,
             limit=_SCROLL_BATCH,
             offset=offset,
-            with_payload=["country", "source_type", "date", "url", "content_hash"],
+            with_payload=["country", "source_type", "date", "url"],
             with_vectors=False,
         )
         for rec in records:
             p = rec.payload or {}
-            country   = p.get("country", "unknown")
-            src_type  = p.get("source_type", "unknown")
-            rec_date  = p.get("date", "9999-01-01")
-            url       = p.get("url", "")
-            c_hash    = p.get("content_hash", "")
+            country  = p.get("country", "unknown")
+            src_type = p.get("source_type", "unknown")
+            rec_date = p.get("date", "9999-01-01")
+            url      = p.get("url", "")
 
             report.total_chunks += 1
             country_sources[country].add(src_type)
             source_counts[src_type] += 1
 
-            if c_hash:
-                hash_count[c_hash] += 1
+            # Дедупликация по URL
+            if url:
+                url_count[url] += 1
 
             if rec_date < cutoff:
                 report.stale_chunks += 1
@@ -230,7 +209,7 @@ def build_coverage_report(
     ]
 
     # ── Консистентность ───────────────────────────────────────────────────────
-    report.duplicate_hashes = sum(cnt - 1 for cnt in hash_count.values() if cnt > 1)
+    report.duplicate_urls = sum(cnt - 1 for cnt in url_count.values() if cnt > 1)
     report.source_type_counts = dict(source_counts)
 
     return report

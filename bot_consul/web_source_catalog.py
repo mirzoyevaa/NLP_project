@@ -177,7 +177,7 @@ def _kind_to_source_type(kind: str) -> str:
         "official": "official",
         "reviews": "review",
         "practical": "channel",
-        "ddg": "channel",
+        "ddg": "ddg",
     }.get((kind or "").lower(), "channel")
 
 
@@ -251,7 +251,7 @@ def upsert_filtered_sources_to_qdrant(
     dest_raw = (profile.destination or "").strip()
 
     chunks: List[Chunk] = []
-    for src, _sc in filtered:
+    for i, (src, _sc) in enumerate(filtered):
         body = "\n\n".join(p for p in (src.title, src.excerpt) if p).strip()
         if not body:
             body = src.url
@@ -260,7 +260,7 @@ def upsert_filtered_sources_to_qdrant(
         canon_url = _qdrant_canonical_url(src.kind, src.url)
         chunks.append(
             Chunk(
-                id=make_chunk_id(src.url, 0),
+                id=make_chunk_id(src.url, i),
                 text=body,
                 country=country,
                 visa_type=vt,

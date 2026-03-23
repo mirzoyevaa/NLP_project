@@ -11,7 +11,6 @@
   - Чанки должны быть достаточно длинными для семантики,
     но не слишком длинными (теряется точность поиска)
 
-тут получаем уже извлечённый текст и подготавливает его для векторизации.
 """
 
 from __future__ import annotations
@@ -31,13 +30,9 @@ def normalize_text(text: str) -> str:
       - Удаление управляющих символов
       - Обрезка пробелов по краям
     """
-    # Unicode нормализация
     text = unicodedata.normalize("NFC", text)
-    # Управляющие символы (кроме \n, \t)
     text = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", text)
-    # Множественные пробелы → один
     text = re.sub(r"[ \t]+", " ", text)
-    # Множественные переносы → два максимум (абзацы)
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
 
@@ -51,14 +46,11 @@ def is_meaningful(text: str, min_length: int | None = None) -> bool:
     text = text.strip()
     if len(text) < min_len:
         return False
-    # Слишком мало слов — скорее всего заголовок или навигация
     words = text.split()
     if len(words) < 8:
         return False
     return True
 
-
-# ── Сегментация ───────────────────────────────────────────────────────────────
 
 def split_into_chunks(
     text: str,
@@ -87,10 +79,8 @@ def split_into_chunks(
         if len(para) <= max_len:
             raw_chunks.append(para)
         else:
-            # Длинный абзац → дробим по предложениям
             raw_chunks.extend(_split_by_sentences(para, max_len, ovlp))
 
-    # Склеиваем слишком короткие соседние чанки
     merged = _merge_short_chunks(raw_chunks, min_len, max_len)
     return [c for c in merged if is_meaningful(c)]
 
@@ -102,13 +92,12 @@ def _split_paragraphs(text: str) -> list[str]:
 
 def _split_by_sentences(text: str, max_len: int, overlap: int) -> list[str]:
     """Делит длинный абзац по предложениям с перекрытием."""
-    # Паттерн конца предложения (русский + английский)
     sentence_end = re.compile(r"(?<=[.!?])\s+(?=[А-ЯA-Z\d«\"\(])")
     sentences = sentence_end.split(text)
 
     chunks: list[str] = []
     current = ""
-    prev_sentence = ""  # для перекрытия
+    prev_sentence = "" 
 
     for sent in sentences:
         candidate = (prev_sentence + " " + sent).strip() if prev_sentence else sent
@@ -117,7 +106,6 @@ def _split_by_sentences(text: str, max_len: int, overlap: int) -> list[str]:
         else:
             if current:
                 chunks.append(current)
-            # Перекрытие: берём хвост предыдущего чанка
             overlap_text = current[-overlap:] if len(current) > overlap else current
             current = (overlap_text + " " + sent).strip() if overlap_text else sent
         prev_sentence = sent
@@ -144,14 +132,12 @@ def _merge_short_chunks(
     return merged
 
 
-# ── Главная точка входа ───────────────────────────────────────────────────────
-
 @dataclass
 class PreparedText:
     """Результат предобработки одного сырого текста."""
-    chunks: list[str]       # нормализованные сегменты, готовые к векторизации
-    original_length: int    # длина исходного текста (символов)
-    chunks_count: int       # число получившихся чанков
+    chunks: list[str]      
+    original_length: int 
+    chunks_count: int    
 
 
 def preprocess(text: str) -> PreparedText:
@@ -175,20 +161,18 @@ def preprocess_to_chunks(
     visa_type: str,
     source_type: str,
     date: str,
-    id_offset: int = 0,
 ) -> list[Chunk]:
     """
     Предобрабатывает текст и возвращает готовые Chunk-объекты.
     Используется парсерами: они передают сырой текст,
     получают список Chunk, готовых к upsert в QdrantStore.
-
-    id_offset — смещение индекса для уникальности ID при нескольких вызовах
-    с одним URL.
+    
+    id формируется детерминированно как make_chunk_id(url, index).
     """
     prepared = preprocess(text)
     return [
         Chunk(
-            id=make_chunk_id(url, id_offset + i),
+            id=make_chunk_id(url, i),
             text=chunk_text,
             country=country,
             visa_type=visa_type,

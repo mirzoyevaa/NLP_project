@@ -13,10 +13,9 @@ Singleton через @lru_cache: модель загружается один р
 import logging
 from functools import lru_cache
 
-# Загрузить PyTorch до transformers/sentence_transformers — иначе у Hugging Face иногда частичная инициализация
-# и в логах «GenerationMixin» / «Could not import sentence_transformers» при том что пакеты стоят.
+
 try:
-    import torch  # noqa: F401
+    import torch
 except ImportError as e:
     raise RuntimeError(
         "Пакет torch (PyTorch) не импортируется. Переустановите зависимости в .venv бота: "

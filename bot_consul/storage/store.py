@@ -51,10 +51,6 @@ class QdrantStore:
         self.collection = collection or settings.QDRANT_COLLECTION
         self._ensure_collection()
 
-    # ══════════════════════════════════════════════════════════════════════════
-    # Инициализация
-    # ══════════════════════════════════════════════════════════════════════════
-
     def _ensure_collection(self) -> None:
         """Создаёт коллекцию и payload-индексы, если их нет."""
         existing = {c.name for c in self.client.get_collections().collections}
@@ -100,10 +96,6 @@ class QdrantStore:
                 )
             except Exception as e:
                 logger.debug("Payload index for %s skipped: %s", field, e)
-
-    # ══════════════════════════════════════════════════════════════════════════
-    # Запись
-    # ══════════════════════════════════════════════════════════════════════════
 
     def upsert(self, chunks: List[Chunk]) -> Dict[str, int]:
         """
@@ -169,7 +161,7 @@ class QdrantStore:
             if prev is None:
                 stats["inserted"] += 1
                 to_write.append(chunk)
-            elif prev.get("content_hash") == chunk.content_hash:
+            elif prev.get("url") == chunk.url:
                 stats["skipped"] += 1
             else:
                 stats["updated"] += 1
@@ -203,10 +195,6 @@ class QdrantStore:
         stats = self.upsert(chunks)
         logger.info("Rebuild complete: %s", stats)
         return stats
-
-    # ══════════════════════════════════════════════════════════════════════════
-    # Поиск
-    # ══════════════════════════════════════════════════════════════════════════
 
     def search(
         self,
@@ -295,7 +283,7 @@ class QdrantStore:
             country=country,
             source_types=["official"],
             top_k=top_k,
-            score_threshold=0.35,
+            score_threshold=settings.SEARCH_SCORE_THRESHOLD_OFFICIAL
         )
 
     def search_by_source_type(
@@ -310,7 +298,7 @@ class QdrantStore:
             country=country,
             source_types=[source_type],
             top_k=top_k,
-            score_threshold=0.35,
+            score_threshold=settings.SEARCH_SCORE_THRESHOLD_OFFICIAL
         )
 
     # ══════════════════════════════════════════════════════════════════════════

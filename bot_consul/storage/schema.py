@@ -23,12 +23,12 @@ from datetime import date
 from typing import Any, Dict, Optional
 
 
-SOURCE_TYPES = ("official", "review", "channel")
+SOURCE_TYPES = ("official", "review", "channel", "ddg")
 
 COUNTRY_CODES = (
     "germany", "france", "spain", "czechia", "italy",
     "thailand", "uae", "uk", "usa", "serbia", "georgia",
-    "turkey", "general",
+    "turkey", "australia", "south_africa", "general",
 )
 
 VISA_TYPE_CODES = (
