@@ -51,6 +51,13 @@ class QdrantStore:
         self.collection = collection or settings.QDRANT_COLLECTION
         self._ensure_collection()
 
+<<<<<<< HEAD
+=======
+    # ══════════════════════════════════════════════════════════════════════════
+    # Инициализация
+    # ══════════════════════════════════════════════════════════════════════════
+
+>>>>>>> b066bb1 (main_pipline)
     def _ensure_collection(self) -> None:
         """Создаёт коллекцию и payload-индексы, если их нет."""
         existing = {c.name for c in self.client.get_collections().collections}
@@ -97,6 +104,13 @@ class QdrantStore:
             except Exception as e:
                 logger.debug("Payload index for %s skipped: %s", field, e)
 
+<<<<<<< HEAD
+=======
+    # ══════════════════════════════════════════════════════════════════════════
+    # Запись
+    # ══════════════════════════════════════════════════════════════════════════
+
+>>>>>>> b066bb1 (main_pipline)
     def upsert(self, chunks: List[Chunk]) -> Dict[str, int]:
         """
         Добавляет/обновляет чанки с дедупликацией и версионированием.
@@ -161,7 +175,11 @@ class QdrantStore:
             if prev is None:
                 stats["inserted"] += 1
                 to_write.append(chunk)
+<<<<<<< HEAD
             elif prev.get("url") == chunk.url and prev.get("dataset") == chunk.dataset:
+=======
+            elif prev.get("content_hash") == chunk.content_hash:
+>>>>>>> b066bb1 (main_pipline)
                 stats["skipped"] += 1
             else:
                 stats["updated"] += 1
@@ -196,6 +214,13 @@ class QdrantStore:
         logger.info("Rebuild complete: %s", stats)
         return stats
 
+<<<<<<< HEAD
+=======
+    # ══════════════════════════════════════════════════════════════════════════
+    # Поиск
+    # ══════════════════════════════════════════════════════════════════════════
+
+>>>>>>> b066bb1 (main_pipline)
     def search(
         self,
         query: str,
@@ -283,7 +308,11 @@ class QdrantStore:
             country=country,
             source_types=["official"],
             top_k=top_k,
+<<<<<<< HEAD
             score_threshold=settings.SEARCH_SCORE_THRESHOLD_OFFICIAL
+=======
+            score_threshold=0.35,
+>>>>>>> b066bb1 (main_pipline)
         )
 
     def search_by_source_type(
@@ -298,7 +327,11 @@ class QdrantStore:
             country=country,
             source_types=[source_type],
             top_k=top_k,
+<<<<<<< HEAD
             score_threshold=settings.SEARCH_SCORE_THRESHOLD_OFFICIAL
+=======
+            score_threshold=0.35,
+>>>>>>> b066bb1 (main_pipline)
         )
 
     # ══════════════════════════════════════════════════════════════════════════
