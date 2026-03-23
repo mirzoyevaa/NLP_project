@@ -178,7 +178,11 @@ def _kind_to_source_type(kind: str) -> str:
         "reviews": "review",
         "practical": "channel",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "ddg": "ddg",
+=======
+        "ddg": "channel",
+>>>>>>> b066bb1 (main_pipline)
 =======
         "ddg": "channel",
 >>>>>>> b066bb1 (main_pipline)
@@ -256,7 +260,11 @@ def upsert_filtered_sources_to_qdrant(
 
     chunks: List[Chunk] = []
 <<<<<<< HEAD
+<<<<<<< HEAD
     for i, (src, _sc) in enumerate(filtered):
+=======
+    for src, _sc in filtered:
+>>>>>>> b066bb1 (main_pipline)
 =======
     for src, _sc in filtered:
 >>>>>>> b066bb1 (main_pipline)
@@ -269,7 +277,11 @@ def upsert_filtered_sources_to_qdrant(
         chunks.append(
             Chunk(
 <<<<<<< HEAD
+<<<<<<< HEAD
                 id=make_chunk_id(src.url, i),
+=======
+                id=make_chunk_id(src.url, 0),
+>>>>>>> b066bb1 (main_pipline)
 =======
                 id=make_chunk_id(src.url, 0),
 >>>>>>> b066bb1 (main_pipline)

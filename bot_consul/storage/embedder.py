@@ -14,14 +14,20 @@ import logging
 from functools import lru_cache
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 try:
     import torch
 =======
+=======
+>>>>>>> b066bb1 (main_pipline)
 # Загрузить PyTorch до transformers/sentence_transformers — иначе у Hugging Face иногда частичная инициализация
 # и в логах «GenerationMixin» / «Could not import sentence_transformers» при том что пакеты стоят.
 try:
     import torch  # noqa: F401
+<<<<<<< HEAD
+>>>>>>> b066bb1 (main_pipline)
+=======
 >>>>>>> b066bb1 (main_pipline)
 except ImportError as e:
     raise RuntimeError(

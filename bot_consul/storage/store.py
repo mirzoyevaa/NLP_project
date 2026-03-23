@@ -52,11 +52,17 @@ class QdrantStore:
         self._ensure_collection()
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> b066bb1 (main_pipline)
     # ══════════════════════════════════════════════════════════════════════════
     # Инициализация
     # ══════════════════════════════════════════════════════════════════════════
 
+<<<<<<< HEAD
+>>>>>>> b066bb1 (main_pipline)
+=======
 >>>>>>> b066bb1 (main_pipline)
     def _ensure_collection(self) -> None:
         """Создаёт коллекцию и payload-индексы, если их нет."""
@@ -105,11 +111,17 @@ class QdrantStore:
                 logger.debug("Payload index for %s skipped: %s", field, e)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> b066bb1 (main_pipline)
     # ══════════════════════════════════════════════════════════════════════════
     # Запись
     # ══════════════════════════════════════════════════════════════════════════
 
+<<<<<<< HEAD
+>>>>>>> b066bb1 (main_pipline)
+=======
 >>>>>>> b066bb1 (main_pipline)
     def upsert(self, chunks: List[Chunk]) -> Dict[str, int]:
         """
@@ -176,7 +188,11 @@ class QdrantStore:
                 stats["inserted"] += 1
                 to_write.append(chunk)
 <<<<<<< HEAD
+<<<<<<< HEAD
             elif prev.get("url") == chunk.url and prev.get("dataset") == chunk.dataset:
+=======
+            elif prev.get("content_hash") == chunk.content_hash:
+>>>>>>> b066bb1 (main_pipline)
 =======
             elif prev.get("content_hash") == chunk.content_hash:
 >>>>>>> b066bb1 (main_pipline)
@@ -215,11 +231,17 @@ class QdrantStore:
         return stats
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> b066bb1 (main_pipline)
     # ══════════════════════════════════════════════════════════════════════════
     # Поиск
     # ══════════════════════════════════════════════════════════════════════════
 
+<<<<<<< HEAD
+>>>>>>> b066bb1 (main_pipline)
+=======
 >>>>>>> b066bb1 (main_pipline)
     def search(
         self,
@@ -309,7 +331,11 @@ class QdrantStore:
             source_types=["official"],
             top_k=top_k,
 <<<<<<< HEAD
+<<<<<<< HEAD
             score_threshold=settings.SEARCH_SCORE_THRESHOLD_OFFICIAL
+=======
+            score_threshold=0.35,
+>>>>>>> b066bb1 (main_pipline)
 =======
             score_threshold=0.35,
 >>>>>>> b066bb1 (main_pipline)
@@ -328,7 +354,11 @@ class QdrantStore:
             source_types=[source_type],
             top_k=top_k,
 <<<<<<< HEAD
+<<<<<<< HEAD
             score_threshold=settings.SEARCH_SCORE_THRESHOLD_OFFICIAL
+=======
+            score_threshold=0.35,
+>>>>>>> b066bb1 (main_pipline)
 =======
             score_threshold=0.35,
 >>>>>>> b066bb1 (main_pipline)

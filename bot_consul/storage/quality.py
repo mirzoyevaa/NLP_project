@@ -13,10 +13,13 @@
 
   3. Консистентность (§3.3):
 <<<<<<< HEAD
+<<<<<<< HEAD
      «дедупликация одинаковых фрагментов по URL»
 
 Используется в ручном ревью данных
 =======
+=======
+>>>>>>> b066bb1 (main_pipline)
      «дедупликация одинаковых фрагментов; выявление противоречий
       между источниками (официальные vs отзывы)»
 
@@ -24,6 +27,9 @@
   - В скрипте scripts/knowledge_report.py
   - В Prometheus-метриках (через pipeline/metrics.py)
   - В ручном ревью командой данных
+<<<<<<< HEAD
+>>>>>>> b066bb1 (main_pipline)
+=======
 >>>>>>> b066bb1 (main_pipline)
 """
 from __future__ import annotations
@@ -43,10 +49,16 @@ TARGET_COUNTRIES = frozenset({
     "germany", "france", "spain", "czechia", "italy",
     "thailand", "uae", "uk", "usa", "serbia", "georgia", "turkey",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "australia", "south_africa",
 })
 
 REQUIRED_SOURCE_TYPES = frozenset({"official", "review", "channel", "ddg"})
+=======
+})
+
+REQUIRED_SOURCE_TYPES = frozenset({"official", "review", "channel"})
+>>>>>>> b066bb1 (main_pipline)
 =======
 })
 
@@ -57,11 +69,17 @@ _SCROLL_BATCH = 100
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> b066bb1 (main_pipline)
 # ══════════════════════════════════════════════════════════════════════════════
 # Отчёт о качестве
 # ══════════════════════════════════════════════════════════════════════════════
 
+<<<<<<< HEAD
+>>>>>>> b066bb1 (main_pipline)
+=======
 >>>>>>> b066bb1 (main_pipline)
 @dataclass
 class CoverageReport:
@@ -73,10 +91,13 @@ class CoverageReport:
     # ── Покрытие ──────────────────────────────────────────────────────────────
     total_chunks: int = 0
 <<<<<<< HEAD
+<<<<<<< HEAD
     countries_full: list[str] = field(default_factory=list)
     countries_partial: list[str] = field(default_factory=list)
     countries_missing: list[str] = field(default_factory=list)
 =======
+=======
+>>>>>>> b066bb1 (main_pipline)
     # Страны с тремя типами источников (official + review + channel)
     countries_full: list[str] = field(default_factory=list)
     # Страны с 1–2 типами источников
@@ -84,6 +105,9 @@ class CoverageReport:
     # Целевые страны без данных вообще
     countries_missing: list[str] = field(default_factory=list)
     # Доля целевых стран с полным покрытием (0.0–1.0)
+<<<<<<< HEAD
+>>>>>>> b066bb1 (main_pipline)
+=======
 >>>>>>> b066bb1 (main_pipline)
     coverage_score: float = 0.0
 
@@ -91,6 +115,7 @@ class CoverageReport:
     fresh_chunks: int = 0
     stale_chunks: int = 0
     stale_ratio: float = 0.0
+<<<<<<< HEAD
 <<<<<<< HEAD
     oldest_source_days: int = 0
     sources_needing_update: list[str] = field(default_factory=list)
@@ -101,6 +126,8 @@ class CoverageReport:
     source_type_counts: dict[str, int] = field(default_factory=dict)
 
 =======
+=======
+>>>>>>> b066bb1 (main_pipline)
     # Возраст самого старого источника в днях
     oldest_source_days: int = 0
     # URL источников, которым нужно обновление
@@ -113,6 +140,9 @@ class CoverageReport:
 
     # ── Интерфейс ─────────────────────────────────────────────────────────────
 
+<<<<<<< HEAD
+>>>>>>> b066bb1 (main_pipline)
+=======
 >>>>>>> b066bb1 (main_pipline)
     def is_healthy(self) -> bool:
         """
@@ -146,7 +176,11 @@ class CoverageReport:
             },
             "consistency": {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 "duplicate_urls":     self.duplicate_urls,
+=======
+                "duplicate_hashes":  self.duplicate_hashes,
+>>>>>>> b066bb1 (main_pipline)
 =======
                 "duplicate_hashes":  self.duplicate_hashes,
 >>>>>>> b066bb1 (main_pipline)
@@ -166,11 +200,14 @@ class CoverageReport:
             f"Без данных: {missing}\n"
             f"Самый старый источник: {self.oldest_source_days} дней\n"
 <<<<<<< HEAD
+<<<<<<< HEAD
             f"Дублирующихся URL: {self.duplicate_urls}"
         )
 
 
 =======
+=======
+>>>>>>> b066bb1 (main_pipline)
             f"Дубликаты content_hash: {self.duplicate_hashes}"
         )
 
@@ -179,6 +216,9 @@ class CoverageReport:
 # Построение отчёта
 # ══════════════════════════════════════════════════════════════════════════════
 
+<<<<<<< HEAD
+>>>>>>> b066bb1 (main_pipline)
+=======
 >>>>>>> b066bb1 (main_pipline)
 def build_coverage_report(
     store: "QdrantStore",
@@ -187,6 +227,10 @@ def build_coverage_report(
     """
     Строит полный отчёт за один scroll-проход по коллекции.
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    Не делает дополнительных запросов к Qdrant.
+>>>>>>> b066bb1 (main_pipline)
 =======
     Не делает дополнительных запросов к Qdrant.
 >>>>>>> b066bb1 (main_pipline)
@@ -200,21 +244,31 @@ def build_coverage_report(
     cutoff = (date.today() - timedelta(days=staleness_days)).isoformat()
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     country_sources: dict[str, set] = defaultdict(set)
     source_counts:   dict[str, int] = defaultdict(int)
     url_count:       dict[str, int] = defaultdict(int)  # для дедупликации по URL
     url_dates:       dict[str, str] = {}
 =======
+=======
+>>>>>>> b066bb1 (main_pipline)
     country_sources: dict[str, set]  = defaultdict(set)
     source_counts:   dict[str, int]  = defaultdict(int)
     hash_count:      dict[str, int]  = defaultdict(int)
     url_dates:       dict[str, str]  = {}
+<<<<<<< HEAD
+>>>>>>> b066bb1 (main_pipline)
+=======
 >>>>>>> b066bb1 (main_pipline)
 
     report = CoverageReport()
     oldest_days = 0
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    # Один scroll-проход по всей коллекции
+>>>>>>> b066bb1 (main_pipline)
 =======
     # Один scroll-проход по всей коллекции
 >>>>>>> b066bb1 (main_pipline)
@@ -225,7 +279,11 @@ def build_coverage_report(
             limit=_SCROLL_BATCH,
             offset=offset,
 <<<<<<< HEAD
+<<<<<<< HEAD
             with_payload=["country", "source_type", "date", "url"],
+=======
+            with_payload=["country", "source_type", "date", "url", "content_hash"],
+>>>>>>> b066bb1 (main_pipline)
 =======
             with_payload=["country", "source_type", "date", "url", "content_hash"],
 >>>>>>> b066bb1 (main_pipline)
@@ -234,16 +292,22 @@ def build_coverage_report(
         for rec in records:
             p = rec.payload or {}
 <<<<<<< HEAD
+<<<<<<< HEAD
             country  = p.get("country", "unknown")
             src_type = p.get("source_type", "unknown")
             rec_date = p.get("date", "9999-01-01")
             url      = p.get("url", "")
 =======
+=======
+>>>>>>> b066bb1 (main_pipline)
             country   = p.get("country", "unknown")
             src_type  = p.get("source_type", "unknown")
             rec_date  = p.get("date", "9999-01-01")
             url       = p.get("url", "")
             c_hash    = p.get("content_hash", "")
+<<<<<<< HEAD
+>>>>>>> b066bb1 (main_pipline)
+=======
 >>>>>>> b066bb1 (main_pipline)
 
             report.total_chunks += 1
@@ -251,9 +315,14 @@ def build_coverage_report(
             source_counts[src_type] += 1
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             # Дедупликация по URL
             if url:
                 url_count[url] += 1
+=======
+            if c_hash:
+                hash_count[c_hash] += 1
+>>>>>>> b066bb1 (main_pipline)
 =======
             if c_hash:
                 hash_count[c_hash] += 1
@@ -305,7 +374,11 @@ def build_coverage_report(
 
     # ── Консистентность ───────────────────────────────────────────────────────
 <<<<<<< HEAD
+<<<<<<< HEAD
     report.duplicate_urls = sum(cnt - 1 for cnt in url_count.values() if cnt > 1)
+=======
+    report.duplicate_hashes = sum(cnt - 1 for cnt in hash_count.values() if cnt > 1)
+>>>>>>> b066bb1 (main_pipline)
 =======
     report.duplicate_hashes = sum(cnt - 1 for cnt in hash_count.values() if cnt > 1)
 >>>>>>> b066bb1 (main_pipline)

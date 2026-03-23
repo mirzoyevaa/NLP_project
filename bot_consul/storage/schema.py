@@ -24,7 +24,11 @@ from typing import Any, Dict, Optional
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 SOURCE_TYPES = ("official", "review", "channel", "ddg")
+=======
+SOURCE_TYPES = ("official", "review", "channel")
+>>>>>>> b066bb1 (main_pipline)
 =======
 SOURCE_TYPES = ("official", "review", "channel")
 >>>>>>> b066bb1 (main_pipline)
@@ -33,7 +37,11 @@ COUNTRY_CODES = (
     "germany", "france", "spain", "czechia", "italy",
     "thailand", "uae", "uk", "usa", "serbia", "georgia",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "turkey", "australia", "south_africa", "general",
+=======
+    "turkey", "general",
+>>>>>>> b066bb1 (main_pipline)
 =======
     "turkey", "general",
 >>>>>>> b066bb1 (main_pipline)

@@ -2,6 +2,11 @@
 Конфигурация зоны Хранилище.
 Читается из переменных окружения / .env файла.
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+Другие зоны работают через интерфейс QdrantStore и не должны
+зависеть от деталей подключения к Qdrant напрямую.
+>>>>>>> b066bb1 (main_pipline)
 =======
 Другие зоны работают через интерфейс QdrantStore и не должны
 зависеть от деталей подключения к Qdrant напрямую.
@@ -14,6 +19,10 @@ from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+# Тот же корень, что и у bot_consul: storage_zone/.env (не зависит от cwd)
+>>>>>>> b066bb1 (main_pipline)
 =======
 # Тот же корень, что и у bot_consul: storage_zone/.env (не зависит от cwd)
 >>>>>>> b066bb1 (main_pipline)
@@ -27,7 +36,12 @@ class StorageSettings(BaseSettings):
         env_file_encoding="utf-8",
         case_sensitive=False,
 <<<<<<< HEAD
+<<<<<<< HEAD
         extra="ignore")
+=======
+        extra="ignore",
+    )
+>>>>>>> b066bb1 (main_pipline)
 =======
         extra="ignore",
     )
@@ -37,6 +51,7 @@ class StorageSettings(BaseSettings):
     QDRANT_API_KEY: str = Field(default="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.MOrvRW05eaj9OVXqzJddFTafoLSMUaBwgMJTE_TbZM8", description='api')
     QDRANT_COLLECTION: str = Field(
         default="consul_knowledge",
+<<<<<<< HEAD
 <<<<<<< HEAD
         description="consul_knowledge")
 
@@ -68,6 +83,8 @@ class StorageSettings(BaseSettings):
         default=0.35,
         description="Минимальный score для официальных источников",
 =======
+=======
+>>>>>>> b066bb1 (main_pipline)
         description="consul_knowledge",
     )
 
@@ -95,11 +112,15 @@ class StorageSettings(BaseSettings):
     SEARCH_SCORE_THRESHOLD: float = Field(
         default=0.2,
         description="Минимальный score для возврата результата",
+<<<<<<< HEAD
+>>>>>>> b066bb1 (main_pipline)
+=======
 >>>>>>> b066bb1 (main_pipline)
     )
 
     STALENESS_DAYS: int = Field(
         default=180,
+<<<<<<< HEAD
 <<<<<<< HEAD
         description="Порог устаревания источников в днях")
 
@@ -131,6 +152,8 @@ class StorageSettings(BaseSettings):
         default="INFO",
         description="Уровень логирования")
 =======
+=======
+>>>>>>> b066bb1 (main_pipline)
         description="Порог устаревания источников в днях",
     )
 
@@ -165,6 +188,9 @@ class StorageSettings(BaseSettings):
         default="INFO",
         description="Уровень логирования",
     )
+<<<<<<< HEAD
+>>>>>>> b066bb1 (main_pipline)
+=======
 >>>>>>> b066bb1 (main_pipline)
 
 

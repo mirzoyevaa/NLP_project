@@ -12,6 +12,10 @@
     но не слишком длинными (теряется точность поиска)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+тут получаем уже извлечённый текст и подготавливает его для векторизации.
+>>>>>>> b066bb1 (main_pipline)
 =======
 тут получаем уже извлечённый текст и подготавливает его для векторизации.
 >>>>>>> b066bb1 (main_pipline)
@@ -35,10 +39,13 @@ def normalize_text(text: str) -> str:
       - Обрезка пробелов по краям
     """
 <<<<<<< HEAD
+<<<<<<< HEAD
     text = unicodedata.normalize("NFC", text)
     text = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", text)
     text = re.sub(r"[ \t]+", " ", text)
 =======
+=======
+>>>>>>> b066bb1 (main_pipline)
     # Unicode нормализация
     text = unicodedata.normalize("NFC", text)
     # Управляющие символы (кроме \n, \t)
@@ -46,6 +53,9 @@ def normalize_text(text: str) -> str:
     # Множественные пробелы → один
     text = re.sub(r"[ \t]+", " ", text)
     # Множественные переносы → два максимум (абзацы)
+<<<<<<< HEAD
+>>>>>>> b066bb1 (main_pipline)
+=======
 >>>>>>> b066bb1 (main_pipline)
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
@@ -61,6 +71,10 @@ def is_meaningful(text: str, min_length: int | None = None) -> bool:
     if len(text) < min_len:
         return False
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    # Слишком мало слов — скорее всего заголовок или навигация
+>>>>>>> b066bb1 (main_pipline)
 =======
     # Слишком мало слов — скорее всего заголовок или навигация
 >>>>>>> b066bb1 (main_pipline)
@@ -71,6 +85,11 @@ def is_meaningful(text: str, min_length: int | None = None) -> bool:
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+# ── Сегментация ───────────────────────────────────────────────────────────────
+
+>>>>>>> b066bb1 (main_pipline)
 =======
 # ── Сегментация ───────────────────────────────────────────────────────────────
 
@@ -103,13 +122,19 @@ def split_into_chunks(
             raw_chunks.append(para)
         else:
 <<<<<<< HEAD
+<<<<<<< HEAD
             raw_chunks.extend(_split_by_sentences(para, max_len, ovlp))
 
 =======
+=======
+>>>>>>> b066bb1 (main_pipline)
             # Длинный абзац → дробим по предложениям
             raw_chunks.extend(_split_by_sentences(para, max_len, ovlp))
 
     # Склеиваем слишком короткие соседние чанки
+<<<<<<< HEAD
+>>>>>>> b066bb1 (main_pipline)
+=======
 >>>>>>> b066bb1 (main_pipline)
     merged = _merge_short_chunks(raw_chunks, min_len, max_len)
     return [c for c in merged if is_meaningful(c)]
@@ -123,6 +148,10 @@ def _split_paragraphs(text: str) -> list[str]:
 def _split_by_sentences(text: str, max_len: int, overlap: int) -> list[str]:
     """Делит длинный абзац по предложениям с перекрытием."""
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    # Паттерн конца предложения (русский + английский)
+>>>>>>> b066bb1 (main_pipline)
 =======
     # Паттерн конца предложения (русский + английский)
 >>>>>>> b066bb1 (main_pipline)
@@ -132,7 +161,11 @@ def _split_by_sentences(text: str, max_len: int, overlap: int) -> list[str]:
     chunks: list[str] = []
     current = ""
 <<<<<<< HEAD
+<<<<<<< HEAD
     prev_sentence = "" 
+=======
+    prev_sentence = ""  # для перекрытия
+>>>>>>> b066bb1 (main_pipline)
 =======
     prev_sentence = ""  # для перекрытия
 >>>>>>> b066bb1 (main_pipline)
@@ -145,6 +178,10 @@ def _split_by_sentences(text: str, max_len: int, overlap: int) -> list[str]:
             if current:
                 chunks.append(current)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+            # Перекрытие: берём хвост предыдущего чанка
+>>>>>>> b066bb1 (main_pipline)
 =======
             # Перекрытие: берём хвост предыдущего чанка
 >>>>>>> b066bb1 (main_pipline)
@@ -175,6 +212,7 @@ def _merge_short_chunks(
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 @dataclass
 class PreparedText:
     """Результат предобработки одного сырого текста."""
@@ -182,6 +220,8 @@ class PreparedText:
     original_length: int 
     chunks_count: int    
 =======
+=======
+>>>>>>> b066bb1 (main_pipline)
 # ── Главная точка входа ───────────────────────────────────────────────────────
 
 @dataclass
@@ -190,6 +230,9 @@ class PreparedText:
     chunks: list[str]       # нормализованные сегменты, готовые к векторизации
     original_length: int    # длина исходного текста (символов)
     chunks_count: int       # число получившихся чанков
+<<<<<<< HEAD
+>>>>>>> b066bb1 (main_pipline)
+=======
 >>>>>>> b066bb1 (main_pipline)
 
 
@@ -215,6 +258,10 @@ def preprocess_to_chunks(
     source_type: str,
     date: str,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    id_offset: int = 0,
+>>>>>>> b066bb1 (main_pipline)
 =======
     id_offset: int = 0,
 >>>>>>> b066bb1 (main_pipline)
@@ -224,8 +271,14 @@ def preprocess_to_chunks(
     Используется парсерами: они передают сырой текст,
     получают список Chunk, готовых к upsert в QdrantStore.
 <<<<<<< HEAD
+<<<<<<< HEAD
     
     id формируется детерминированно как make_chunk_id(url, index).
+=======
+
+    id_offset — смещение индекса для уникальности ID при нескольких вызовах
+    с одним URL.
+>>>>>>> b066bb1 (main_pipline)
 =======
 
     id_offset — смещение индекса для уникальности ID при нескольких вызовах
@@ -236,7 +289,11 @@ def preprocess_to_chunks(
     return [
         Chunk(
 <<<<<<< HEAD
+<<<<<<< HEAD
             id=make_chunk_id(url, i),
+=======
+            id=make_chunk_id(url, id_offset + i),
+>>>>>>> b066bb1 (main_pipline)
 =======
             id=make_chunk_id(url, id_offset + i),
 >>>>>>> b066bb1 (main_pipline)
@@ -249,7 +306,11 @@ def preprocess_to_chunks(
         )
         for i, chunk_text in enumerate(prepared.chunks)
 <<<<<<< HEAD
+<<<<<<< HEAD
     ]
+=======
+    ]
+>>>>>>> b066bb1 (main_pipline)
 =======
     ]
 >>>>>>> b066bb1 (main_pipline)
