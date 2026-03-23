@@ -1,0 +1,34 @@
+# Поддерживаемые интерпретаторы: CPython 3.10–3.13.
+# Не используйте Python 3.14: у pydantic-core колёса/сборка под 3.14 ещё ломаются (PyO3 max 3.13).
+qdrant-client==1.12.1
+
+sentence-transformers==3.3.1
+# sentence-transformers тянет transformers. Жёсткая версия: иначе после pip upgrade снова ломается связка torch/transformers
+# (в логах: ImportError: cannot import name 'GenerationMixin' — это не «не те импорты» в коде проекта, а .venv).
+torch>=2.1.0,<3
+transformers==4.46.3
+
+# aiogram <3.16 требует pydantic<2.10; langchain — pydantic>=2.7.4,<3 → берём 2.9.x
+pydantic==2.9.2
+pydantic-settings==2.7.0
+
+pytest==8.3.4
+pytest-asyncio==1.0.0
+
+langchain-huggingface==0.1.2
+langchain-qdrant==0.2.0
+langchain-core==0.3.28
+python-dotenv==1.0.1
+requests==2.32.3
+
+langchain-openai
+
+langgraph>=0.2.0
+duckduckgo-search>=6.0.0
+# Модуль `ddgs` (import DDGS) — отдельный пакет на PyPI; без него падает travel_web_agent / web_fallback
+ddgs>=1.0.0
+beautifulsoup4>=4.12.0
+
+# Telegram: только bot_consul/telegram_bot.py и check_telegram.py (остальной бот — RAG/travel без aiogram)
+# Зафиксировано для воспроизводимости; «ModuleNotFoundError: aiogram» = пакеты не поставлены в .venv, не «плохая версия»
+aiogram==3.13.1
